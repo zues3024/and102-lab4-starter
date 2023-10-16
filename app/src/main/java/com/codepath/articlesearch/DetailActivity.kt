@@ -1,5 +1,6 @@
 package com.codepath.articlesearch
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,9 +12,11 @@ private const val TAG = "DetailActivity"
 class DetailActivity : AppCompatActivity() {
     private lateinit var mediaImageView: ImageView
     private lateinit var titleTextView: TextView
-    private lateinit var bylineTextView: TextView
-    private lateinit var abstractTextView: TextView
-
+    private lateinit var releaseDateTextView: TextView
+    private lateinit var overviewTextView: TextView
+    private lateinit var voteAvgTextView: TextView
+    private lateinit var voteCountTextView: TextView
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -21,20 +24,25 @@ class DetailActivity : AppCompatActivity() {
         // TODO: Find the views for the screen
         mediaImageView = findViewById(R.id.mediaImage)
         titleTextView = findViewById(R.id.mediaTitle)
-        bylineTextView = findViewById(R.id.mediaByline)
-        abstractTextView = findViewById(R.id.mediaAbstract)
+        releaseDateTextView = findViewById(R.id.mediaDescription)
+        overviewTextView = findViewById(R.id.mediaAbstract)
+        voteAvgTextView = findViewById(R.id.mediaVoteAverage)
+        voteCountTextView = findViewById(R.id.mediaVoteCount)
+
 
         // TODO: Get the extra from the Intent
         val article = intent.getSerializableExtra(ARTICLE_EXTRA) as Article
 
         // TODO: Set the title, byline, and abstract information from the article
-        titleTextView.text = article.headline?.main
-        bylineTextView.text = article.byline?.original
-        abstractTextView.text = article.abstract
+        titleTextView.text = article.title
+        releaseDateTextView.text = "Release Date: " + article.releaseDate
+        voteAvgTextView.text = "Vote Average: ${article.voteAvg.toString()}"
+        voteCountTextView.text = "Total Votes: ${article.voteCount}"
+        overviewTextView.text = article.overview
 
         // TODO: Load the media image
         Glide.with(this)
-            .load(article.mediaImageUrl)
+            .load("https://image.tmdb.org/t/p/w500/" + article.multimedia)
             .into(mediaImageView)
     }
 }

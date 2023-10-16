@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -33,7 +34,7 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
 
         private val mediaImageView = itemView.findViewById<ImageView>(R.id.mediaImage)
         private val titleTextView = itemView.findViewById<TextView>(R.id.mediaTitle)
-        private val abstractTextView = itemView.findViewById<TextView>(R.id.mediaAbstract)
+        private val overviewTextView = itemView.findViewById<TextView>(R.id.mediaAbstract)
 
         init {
             itemView.setOnClickListener(this)
@@ -41,16 +42,18 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
 
         // TODO: Write a helper method to help set up the onBindViewHolder method
         fun bind(article: Article) {
-            titleTextView.text = article.headline?.main
-            abstractTextView.text = article.abstract
+            titleTextView.text = article.title
+            overviewTextView.text = article.overview
 
             Glide.with(context)
-                .load(article.mediaImageUrl)
+                .load("https://image.tmdb.org/t/p/w500/" + article.multimedia)
+                .centerInside()
                 .into(mediaImageView)
         }
 
         override fun onClick(v: View?) {
             // TODO: Get selected article
+//            Toast.makeText(context, "Clicked!", Toast.LENGTH_LONG).show()
             val article = articles[absoluteAdapterPosition]
             // TODO: Navigate to Details screen and pass selected article
             val intent = Intent(context, DetailActivity::class.java)
