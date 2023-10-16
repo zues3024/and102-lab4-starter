@@ -3,6 +3,7 @@ package com.codepath.articlesearch
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -10,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 
 const val ARTICLE_EXTRA = "ARTICLE_EXTRA"
 private const val TAG = "ArticleAdapter"
@@ -42,12 +45,15 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
 
         // TODO: Write a helper method to help set up the onBindViewHolder method
         fun bind(article: Article) {
+            val radius = 20
+            val requestOptions = RequestOptions().transform(RoundedCorners(radius))
             titleTextView.text = article.title
             overviewTextView.text = article.overview
 
             Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + article.multimedia)
                 .centerInside()
+                .apply(requestOptions)
                 .into(mediaImageView)
         }
 
